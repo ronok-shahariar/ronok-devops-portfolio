@@ -117,6 +117,17 @@ const projects = [
     tags: ["Docker", "Python", "Prometheus", "Grafana"],
     icon: Activity,
   },
+  {
+    number: "04",
+    category: "SOFTWARE SECURITY / RELEASE ENGINEERING",
+    title: "Secure Software Licensing & Release Management",
+    description:
+      "Architected a reusable licensing framework connecting protected software builds, administrative approvals, signed offline activation, and device-bound runtime validation.",
+    contribution:
+      "End-to-end architecture, licensing DevKit, C/Python integration, web administration, and release automation.",
+    tags: ["C", "Python", "Docker", "Keygen", "Linux", "CMake"],
+    icon: ShieldCheck,
+  },
 ];
 
 /* =========================================================
@@ -817,6 +828,21 @@ export default function Home() {
                       <div className="project-action">
                         <a
                           href="/projects/containerized-observability"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="case-study-btn"
+                          aria-label={`Explore ${project.title} case study (opens in new tab)`}
+                        >
+                          <span>Explore Case Study</span>
+                          <ArrowUpRight size={18} />
+                        </a>
+                      </div>
+                    )}
+
+                    {project.number === "04" && (
+                      <div className="project-action">
+                        <a
+                          href="/projects/secure-software-licensing"
                           target="_blank"
                           rel="noopener noreferrer"
                           className="case-study-btn"
