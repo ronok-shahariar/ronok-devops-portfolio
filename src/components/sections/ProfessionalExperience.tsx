@@ -10,6 +10,7 @@ import {
   GitBranch,
   Activity,
   ArrowUpRight,
+  ShieldCheck,
 } from "lucide-react";
 
 const responsibilities = [
@@ -36,6 +37,12 @@ const responsibilities = [
     title: "Observability Engineering",
     description:
       "Developed containerized Python metrics exporters connecting gRPC data to Prometheus and remote Grafana dashboards.",
+  },
+  {
+    icon: ShieldCheck,
+    title: "Software Licensing & Release Engineering",
+    description:
+      "Architected and developed a reusable licensing DevKit with build approvals, signed offline activation, device-bound validation, and containerized administration.",
   },
 ];
 
