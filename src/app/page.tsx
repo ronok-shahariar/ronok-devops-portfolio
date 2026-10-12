@@ -802,6 +802,21 @@ export default function Home() {
                       </div>
                     )}
 
+                    {project.number === "03" && (
+                      <div className="project-action">
+                        <a
+                          href="/projects/containerized-observability"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="case-study-btn"
+                          aria-label={`Explore ${project.title} case study (opens in new tab)`}
+                        >
+                          <span>Explore Case Study</span>
+                          <ArrowUpRight size={18} />
+                        </a>
+                      </div>
+                    )}
+
                   </div>
 
                   <span className="project-index">

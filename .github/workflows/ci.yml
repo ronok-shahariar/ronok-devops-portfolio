@@ -1,0 +1,51 @@
+name: DevOps Portfolio CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  quality-and-build:
+    name: Lint, Type Check & Build
+    runs-on: ubuntu-latest
+
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run ESLint
+        run: npm run lint
+
+      - name: Check TypeScript
+        run: npx tsc --noEmit
+
+      - name: Build Next.js application
+        run: npm run build
+
+      - name: CI Summary
+        if: success()
+        run: |
+          echo "## DevOps Portfolio CI" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Dependencies installed" >> "$GITHUB_STEP_SUMMARY"
+          echo "- ESLint passed" >> "$GITHUB_STEP_SUMMARY"
+          echo "- TypeScript passed" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Next.js production build passed" >> "$GITHUB_STEP_SUMMARY"
