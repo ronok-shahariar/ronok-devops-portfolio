@@ -871,7 +871,44 @@ export default function Home() {
           =============================================== */}
 
       {/* PROFESSIONAL EXPERIENCE */}
+      
       <ProfessionalExperience />
+
+      {/* PREVIOUS PART-TIME PROJECTS */}
+      <div className="shell">
+        <div className="web-portfolio-card">
+          <div className="web-portfolio-content">
+            <div className="web-portfolio-icon">
+              <Code2 size={20} />
+            </div>
+
+            <div>
+              <span className="web-portfolio-label">
+                PREVIOUS PART-TIME WORK
+              </span>
+
+              <h4>Selected Web Projects</h4>
+
+              <p>
+                A small collection of websites and interactive
+                applications developed for part-time client work
+                and independent projects.
+              </p>
+            </div>
+          </div>
+
+          <a
+            href="https://porfolio-ronok.vercel.app/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="web-portfolio-button"
+            aria-label="View previous web projects (opens in new tab)"
+          >
+            View Web Projects
+            <ArrowUpRight size={16} />
+          </a>
+        </div>
+      </div>
 
       {/* INTERACTIVE TERMINAL */}
       <section
