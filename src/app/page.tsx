@@ -25,6 +25,9 @@ import {
   X,
 } from "lucide-react";
 
+import ProfessionalExperience from "@/components/sections/ProfessionalExperience";
+
+
 /* =========================================================
    PORTFOLIO DATA
    ========================================================= */
@@ -40,6 +43,7 @@ const navigation = [
   { label: "Home", href: "#home" },
   { label: "Expertise", href: "#expertise" },
   { label: "Projects", href: "#projects" },
+  { label: "Experience", href: "#experience" },
   { label: "Terminal", href: "#terminal" },
   { label: "Contact", href: "#contact" },
 ];
@@ -294,6 +298,13 @@ function Infrastructure() {
     </div>
   );
 }
+
+{/* ===============================================
+    PROFESSIONAL EXPERIENCE
+    =============================================== */}
+
+
+
 
 /* =========================================================
    INTERACTIVE TERMINAL
@@ -833,6 +844,10 @@ export default function Home() {
           INTERACTIVE TERMINAL
           =============================================== */}
 
+      {/* PROFESSIONAL EXPERIENCE */}
+      <ProfessionalExperience />
+
+      {/* INTERACTIVE TERMINAL */}
       <section
         className="section terminal-section"
         id="terminal"
