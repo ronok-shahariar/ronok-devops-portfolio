@@ -214,3 +214,5 @@ GitHub: [ronok-shahariar](https://github.com/ronok-shahariar)
 ---
 
 *Built with Next.js, TypeScript, Tailwind CSS, and GitHub Actions. Deployed on Vercel.*
+
+<!-- CI protection workflow verification -->
