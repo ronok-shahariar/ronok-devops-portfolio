@@ -4,129 +4,120 @@
 import { useState, type FormEvent } from "react";
 import { motion } from "motion/react";
 import {
+  Activity,
   ArrowDown,
   ArrowRight,
   ArrowUpRight,
-  Box,
   Check,
   ChevronRight,
-  Cloud,
   Code2,
   Command,
+  Container,
   Cpu,
   GitBranch,
   Layers3,
   Menu,
   Network,
+  Server,
   ShieldCheck,
   Terminal,
   Workflow,
   X,
 } from "lucide-react";
 
+/* =========================================================
+   PORTFOLIO DATA
+   ========================================================= */
+
+const portfolio = {
+  name: "Md Shahariar Hassan",
+  github: "https://github.com/ronok-shahariar",
+  role: "Embedded Software Engineer",
+  specialization: "Software Engineering & DevOps",
+};
+
 const navigation = [
   { label: "Home", href: "#home" },
   { label: "Expertise", href: "#expertise" },
   { label: "Projects", href: "#projects" },
   { label: "Terminal", href: "#terminal" },
+  { label: "Contact", href: "#contact" },
 ];
 
 const expertise = [
   {
-    icon: Terminal,
     number: "01",
-    title: "Linux & Systems",
+    icon: Code2,
+    title: "Systems Software",
     description:
-      "Linux environments, system-level programming, process management, memory optimization, and performance analysis.",
-    tags: ["Linux", "C", "Bash", "Performance"],
+      "Designing and developing C/Python integration components for Linux-based DPDK data pipelines, shared-memory communication, and remote service APIs.",
+    tags: ["C", "Python", "Linux", "DPDK", "POSIX IPC"],
   },
   {
-    icon: Network,
     number: "02",
-    title: "High-Speed Networking",
-    description:
-      "High-throughput packet-processing pipelines, kernel bypass, network interfaces, and low-latency data transport.",
-    tags: ["DPDK", "Networking", "Zero-copy"],
-  },
-  {
     icon: Workflow,
-    number: "03",
-    title: "Automation & CI/CD",
+    title: "CI/CD & Automation",
     description:
-      "Building reproducible development workflows, automated verification, and reliable software delivery pipelines.",
-    tags: ["Git", "GitHub Actions", "CI/CD"],
+      "Building reproducible test environments and automated code-validation workflows to detect integration issues before software reaches target hardware.",
+    tags: ["Docker", "CI/CD", "Bitbucket", "Git"],
   },
   {
-    icon: Cloud,
-    number: "04",
-    title: "Cloud & Infrastructure",
+    number: "03",
+    icon: Container,
+    title: "Containerized Infrastructure",
     description:
-      "Exploring deployment automation, containerized services, infrastructure provisioning, and operational reliability.",
-    tags: ["Docker", "Cloud", "IaC"],
+      "Packaging interconnected C and Python services, managing dependencies, and supporting reliable startup and integration on Linux devices.",
+    tags: ["Docker", "Microservices", "gRPC", "Linux"],
+  },
+  {
+    number: "04",
+    icon: Activity,
+    title: "Monitoring & Observability",
+    description:
+      "Developing Python metrics exporters that connect gRPC telemetry to Prometheus for remote monitoring and Grafana-based visualization.",
+    tags: ["Prometheus", "Grafana", "Python", "gRPC"],
   },
 ];
 
 const projects = [
   {
     number: "01",
-    category: "NETWORKING / LINUX",
-    title: "High-Performance Packet Processing",
+    category: "DEVOPS / CI/CD / TEST AUTOMATION",
+    title: "Hardware-Independent DPDK Testing",
     description:
-      "Systems engineering work involving high-throughput network processing, DPDK, Linux resource optimization, and performance validation.",
-    tags: ["DPDK", "Linux", "C", "Networking"],
-    icon: Network,
+      "Built a Docker-based DPDK validation environment that lets developers test code modifications without waiting for access to expensive, shared networking hardware.",
+    contribution:
+      "Reproducible environment, virtual packet testing, and automated validation.",
+    tags: ["Docker", "DPDK", "testpmd", "CI/CD", "Linux"],
+    icon: Workflow,
   },
   {
     number: "02",
-    category: "SYSTEMS / INTEGRATION",
-    title: "FPGA-to-Host Data Pipeline",
+    category: "SOFTWARE ARCHITECTURE / SYSTEMS",
+    title: "DPDK-to-gRPC Data Pipeline",
     description:
-      "Hardware-software integration for high-speed data streaming, communication interfaces, and system-level validation.",
-    tags: ["FPGA", "Linux", "Data Pipeline"],
-    icon: Cpu,
+      "Designed and implemented the C/Python data-delivery architecture connecting DPDK shared-memory processing to client-facing gRPC APIs.",
+    contribution:
+      "Architecture design, C/Python development, and systems integration.",
+    tags: ["C", "Python", "DPDK", "POSIX IPC", "gRPC"],
+    icon: Network,
   },
   {
     number: "03",
-    category: "DEVOPS / PORTFOLIO",
-    title: "Portfolio Delivery Pipeline",
+    category: "DEVOPS / OBSERVABILITY",
+    title: "Containerized Telemetry Infrastructure",
     description:
-      "This Next.js portfolio is the foundation for an automated quality-check and deployment workflow using GitHub and Vercel.",
-    tags: ["Next.js", "GitHub", "Vercel", "CI/CD"],
-    icon: Workflow,
+      "Developed a containerized Python exporter connecting gRPC telemetry to Prometheus, enabling remote Grafana visualization and automatic startup on Linux devices.",
+    contribution:
+      "Metrics exporter development, containerization, and monitoring integration.",
+    tags: ["Docker", "Python", "Prometheus", "Grafana"],
+    icon: Activity,
   },
 ];
 
-const terminalResponses: Record<string, string[]> = {
-  help: [
-    "Available commands:",
-    "  about      — Professional background",
-    "  skills     — Engineering technologies",
-    "  projects   — Featured engineering work",
-    "  contact    — Contact information",
-    "  clear      — Clear terminal history",
-  ],
-  about: [
-    "Md Shahariar Hassan",
-    "Embedded Software Engineer",
-    "Focus: Linux, high-performance networking,",
-    "systems engineering, and DevOps.",
-  ],
-  skills: [
-    "Linux  •  C  •  DPDK  •  Networking",
-    "Git  •  Docker  •  Automation",
-    "Next.js  •  TypeScript",
-  ],
-  projects: [
-    "[01] High-Performance Packet Processing",
-    "[02] FPGA-to-Host Data Pipeline",
-    "[03] Portfolio Delivery Pipeline",
-    "Scroll down to explore the projects.",
-  ],
-  contact: [
-    "GitHub: github.com/ronok-shahariar",
-    "Connect through the GitHub profile.",
-  ],
-};
+/* =========================================================
+   NAVIGATION
+   ========================================================= */
 
 function Navbar() {
   const [open, setOpen] = useState(false);
@@ -134,16 +125,24 @@ function Navbar() {
   return (
     <header className="site-header">
       <div className="shell nav-inner">
-        <a href="#home" className="brand" onClick={() => setOpen(false)}>
+        <a
+          href="#home"
+          className="brand"
+          onClick={() => setOpen(false)}
+        >
           <span className="brand-icon">
             <Terminal size={19} strokeWidth={2.4} />
           </span>
+
           <span>
             SH<span className="brand-dot">.</span>DEVOPS
           </span>
         </a>
 
-        <nav className={open ? "nav-links nav-open" : "nav-links"}>
+        <nav
+          className={open ? "nav-links nav-open" : "nav-links"}
+          aria-label="Main navigation"
+        >
           {navigation.map((item) => (
             <a
               key={item.label}
@@ -153,9 +152,10 @@ function Navbar() {
               {item.label}
             </a>
           ))}
+
           <a
             className="nav-github"
-href="https://github.com/ronok-shahariar"
+            href={portfolio.github}
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -168,7 +168,9 @@ href="https://github.com/ronok-shahariar"
         <button
           className="mobile-toggle"
           type="button"
-          aria-label={open ? "Close navigation" : "Open navigation"}
+          aria-label={
+            open ? "Close navigation" : "Open navigation"
+          }
           aria-expanded={open}
           onClick={() => setOpen(!open)}
         >
@@ -179,12 +181,37 @@ href="https://github.com/ronok-shahariar"
   );
 }
 
+/* =========================================================
+   ACTUAL SYSTEM ARCHITECTURE PREVIEW
+
+   Simplified telemetry path:
+   DPDK Secondary -> gRPC -> Python Exporter -> Prometheus
+
+   Remote Grafana visualization is represented below.
+   ========================================================= */
+
 function Infrastructure() {
   const nodes = [
-    { label: "SOURCE", name: "Git", icon: Code2 },
-    { label: "AUTOMATION", name: "CI/CD", icon: Workflow },
-    { label: "RUNTIME", name: "Containers", icon: Box },
-    { label: "DELIVERY", name: "Cloud", icon: Cloud },
+    {
+      label: "DATA SOURCE",
+      name: "DPDK / C",
+      icon: Cpu,
+    },
+    {
+      label: "API SERVICE",
+      name: "gRPC",
+      icon: Server,
+    },
+    {
+      label: "METRICS",
+      name: "Exporter",
+      icon: Code2,
+    },
+    {
+      label: "MONITORING",
+      name: "Prometheus",
+      icon: Activity,
+    },
   ];
 
   return (
@@ -195,17 +222,19 @@ function Infrastructure() {
           <span />
           <span />
         </div>
-        <span>infrastructure.pipeline</span>
+
+        <span>telemetry.architecture</span>
+
         <span className="architecture-status">
           <span className="status-light" />
-          DESIGN VIEW
+          SYSTEM DESIGN
         </span>
       </div>
 
       <div className="architecture-content">
         <div className="architecture-heading">
           <Layers3 size={17} />
-          <span>Delivery Architecture</span>
+          <span>DPDK Telemetry Architecture</span>
         </div>
 
         <div className="pipeline">
@@ -213,22 +242,36 @@ function Infrastructure() {
             const Icon = node.icon;
 
             return (
-              <div className="pipeline-step" key={node.name}>
+              <div
+                className="pipeline-step"
+                key={node.name}
+              >
                 <motion.div
                   className="pipeline-node"
                   initial={{ opacity: 0, y: 12 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  transition={{ delay: index * 0.12 }}
+                  transition={{
+                    duration: 0.4,
+                    delay: index * 0.12,
+                  }}
                 >
                   <div className="pipeline-icon">
                     <Icon size={23} />
                   </div>
-                  <span className="pipeline-label">{node.label}</span>
+
+                  <span className="pipeline-label">
+                    {node.label}
+                  </span>
+
                   <strong>{node.name}</strong>
                 </motion.div>
+
                 {index < nodes.length - 1 && (
-                  <div className="pipeline-link">
+                  <div
+                    className="pipeline-link"
+                    aria-hidden="true"
+                  >
                     <ChevronRight size={17} />
                   </div>
                 )}
@@ -240,31 +283,106 @@ function Infrastructure() {
         <div className="architecture-footer">
           <span>
             <ShieldCheck size={16} />
-            Automated delivery concept
+            Remote visualization via Grafana
           </span>
-          <span className="mono">v1.0 / PORTFOLIO</span>
+
+          <span className="mono">
+            C / PYTHON / DOCKER
+          </span>
         </div>
       </div>
     </div>
   );
 }
 
+/* =========================================================
+   INTERACTIVE TERMINAL
+   ========================================================= */
+
 type TerminalLine = {
   command?: string;
   output?: string;
 };
 
+const terminalResponses: Record<string, string[]> = {
+  help: [
+    "Available commands:",
+    "  about       Professional background",
+    "  skills      Engineering stack",
+    "  projects    Featured engineering work",
+    "  devops      DevOps responsibilities",
+    "  contact     Contact details",
+    "  clear       Clear terminal",
+  ],
+
+  about: [
+    "Md Shahariar Hassan",
+    "Embedded Software Engineer",
+    "",
+    "Focus areas:",
+    "Software Architecture",
+    "Linux Systems",
+    "DevOps Automation",
+    "High-Performance Networking",
+  ],
+
+  skills: [
+    "Languages:       C, Python, TypeScript",
+    "Systems:         Linux, DPDK, POSIX IPC",
+    "Infrastructure:  Docker, Git, CI/CD",
+    "Integration:     gRPC, Microservices",
+    "Observability:   Prometheus, Grafana",
+    "Web:             Next.js, React",
+  ],
+
+  projects: [
+    "[01] Hardware-Independent DPDK Testing",
+    "[02] DPDK-to-gRPC Data Pipeline",
+    "[03] Containerized Telemetry Infrastructure",
+    "",
+    "Explore the project cards for summaries.",
+  ],
+
+  devops: [
+    "Engineering contributions:",
+    "",
+    "- Dockerized DPDK test environments",
+    "- Automated code validation",
+    "- Containerized runtime services",
+    "- Dependency compatibility",
+    "- Python metrics exporters",
+    "- Prometheus / Grafana integration",
+    "- Service startup automation",
+  ],
+
+  contact: [
+    "GitHub:",
+    "github.com/ronok-shahariar",
+    "",
+    "Open the Contact section to connect.",
+  ],
+};
+
 function InteractiveTerminal() {
   const [command, setCommand] = useState("");
   const [history, setHistory] = useState<TerminalLine[]>([
-    { output: "Welcome to Shahariar's engineering terminal." },
-    { output: "Type 'help' to see available commands." },
+    {
+      output:
+        "Welcome to Shahariar's engineering terminal.",
+    },
+    {
+      output:
+        "Type 'help' to explore the portfolio.",
+    },
   ]);
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  function handleSubmit(
+    event: FormEvent<HTMLFormElement>
+  ) {
     event.preventDefault();
 
     const input = command.trim().toLowerCase();
+
     if (!input) return;
 
     if (input === "clear") {
@@ -273,16 +391,17 @@ function InteractiveTerminal() {
       return;
     }
 
-    const result = terminalResponses[input] ?? [
+    const response = terminalResponses[input] ?? [
       `Command not found: ${input}`,
-      "Type 'help' to see available commands.",
+      "Type 'help' for available commands.",
     ];
 
     setHistory((previous) => [
       ...previous,
       { command: input },
-      ...result.map((output) => ({ output })),
+      ...response.map((output) => ({ output })),
     ]);
+
     setCommand("");
   }
 
@@ -294,32 +413,55 @@ function InteractiveTerminal() {
           <span />
           <span />
         </div>
+
         <span>visitor@shahariar — bash</span>
+
         <Command size={15} />
       </div>
 
-      <div className="terminal-body" aria-label="Interactive terminal">
+      <div
+        className="terminal-body"
+        aria-label="Interactive engineering terminal"
+      >
         {history.map((line, index) => (
           <div
             key={index}
-            className={line.command ? "terminal-command" : "terminal-output"}
+            className={
+              line.command
+                ? "terminal-command"
+                : "terminal-output"
+            }
           >
-            {line.command && <span className="terminal-prompt">➜ ~ </span>}
+            {line.command && (
+              <span className="terminal-prompt">
+                ➜ ~{" "}
+              </span>
+            )}
+
             {line.command ?? line.output}
           </div>
         ))}
 
-        <form onSubmit={handleSubmit} className="terminal-form">
-          <label htmlFor="terminal-input" className="terminal-prompt">
+        <form
+          className="terminal-form"
+          onSubmit={handleSubmit}
+        >
+          <label
+            htmlFor="terminal-input"
+            className="terminal-prompt"
+          >
             ➜ ~
           </label>
+
           <input
             id="terminal-input"
             type="text"
             autoComplete="off"
             spellCheck={false}
             value={command}
-            onChange={(event) => setCommand(event.target.value)}
+            onChange={(event) =>
+              setCommand(event.target.value)
+            }
             placeholder="type a command..."
             aria-label="Terminal command"
           />
@@ -328,6 +470,10 @@ function InteractiveTerminal() {
     </div>
   );
 }
+
+/* =========================================================
+   REUSABLE SECTION HEADING
+   ========================================================= */
 
 function SectionHeading({
   eyebrow,
@@ -344,16 +490,26 @@ function SectionHeading({
         <span className="eyebrow-line" />
         {eyebrow}
       </span>
+
       <h2>{title}</h2>
+
       <p>{description}</p>
     </div>
   );
 }
 
+/* =========================================================
+   HOMEPAGE
+   ========================================================= */
+
 export default function Home() {
   return (
     <main>
       <Navbar />
+
+      {/* ===============================================
+          HERO SECTION
+          =============================================== */}
 
       <section className="hero" id="home">
         <div className="hero-glow" />
@@ -368,37 +524,49 @@ export default function Home() {
           >
             <div className="availability">
               <span className="status-light" />
-              DEVOPS & SYSTEMS ENGINEERING
+              SOFTWARE ENGINEERING & DEVOPS
             </div>
 
             <div className="hero-label">
-              <span className="mono">01 / ENGINEERING PORTFOLIO</span>
+              <span className="mono">
+                01 / ENGINEERING PORTFOLIO
+              </span>
             </div>
 
             <h1>
-              Building systems
+              I build the
               <br />
-              that <span className="gradient-text">scale.</span>
+              <span className="gradient-text">
+                software.
+              </span>
               <br />
-              Engineering for
+              And engineer
               <br />
-              <span className="outline-text">reliability.</span>
+              <span className="outline-text">
+                how it runs.
+              </span>
             </h1>
 
             <p className="hero-description">
-              I&apos;m <strong>Md Shahariar Hassan</strong>, an Embedded
-              Software Engineer working across Linux, high-performance
-              networking, and systems integration, with a growing focus on
-              DevOps and infrastructure automation.
+              I&apos;m{" "}
+              <strong>{portfolio.name}</strong>, an{" "}
+              {portfolio.role} specializing in
+              C/Python systems integration, Linux,
+              DPDK, containerized infrastructure,
+              and automated software validation.
             </p>
 
             <div className="hero-actions">
-              <a href="#projects" className="button-primary">
+              <a
+                href="#projects"
+                className="button-primary"
+              >
                 Explore My Work
                 <ArrowUpRight size={18} />
               </a>
+
               <a
-                href="https://github.com/ronok-shahariar"
+                href={portfolio.github}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="button-secondary"
@@ -411,11 +579,12 @@ export default function Home() {
             <div className="hero-bottom">
               <span>
                 <Check size={15} />
-                Linux & Networking
+                Architecture & Development
               </span>
+
               <span>
                 <Check size={15} />
-                Systems Engineering
+                CI/CD & Reliability
               </span>
             </div>
           </motion.div>
@@ -424,62 +593,100 @@ export default function Home() {
             className="hero-visual"
             initial={{ opacity: 0, x: 25 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.15 }}
+            transition={{
+              duration: 0.8,
+              delay: 0.15,
+            }}
           >
             <Infrastructure />
           </motion.div>
         </div>
 
-        <a href="#expertise" className="scroll-cue">
+        <a href="#projects" className="scroll-cue">
           <ArrowDown size={16} />
-          SCROLL TO EXPLORE
+          EXPLORE ENGINEERING WORK
         </a>
       </section>
 
-      <section className="tech-strip" aria-label="Engineering technologies">
+      {/* ===============================================
+          TECHNOLOGY STRIP
+          =============================================== */}
+
+      <section
+        className="tech-strip"
+        aria-label="Core engineering technologies"
+      >
         <div className="shell tech-strip-inner">
-          <span className="tech-strip-label">ENGINEERING STACK</span>
+          <span className="tech-strip-label">
+            CORE STACK
+          </span>
+
           <div>
             <span>LINUX</span>
-            <span>DPDK</span>
-            <span>GIT</span>
             <span>DOCKER</span>
-            <span>TYPESCRIPT</span>
+            <span>DPDK</span>
+            <span>C / PYTHON</span>
+            <span>CI/CD</span>
+            <span>gRPC</span>
           </div>
         </div>
       </section>
 
-      <section className="section expertise-section" id="expertise">
+      {/* ===============================================
+          EXPERTISE
+          =============================================== */}
+
+      <section
+        className="section expertise-section"
+        id="expertise"
+      >
         <div className="shell">
           <SectionHeading
-            eyebrow="01 / CAPABILITIES"
-            title="Engineering across the stack."
-            description="From performance-sensitive systems software to automated delivery workflows, my focus is on building technology that is efficient, maintainable, and reliable."
+            eyebrow="01 / ENGINEERING EXPERTISE"
+            title="From code to infrastructure."
+            description="I work across software development, systems integration, automated validation, and the infrastructure that supports reliable application delivery."
           />
 
           <div className="expertise-grid">
             {expertise.map((item, index) => {
               const Icon = item.icon;
+
               return (
                 <motion.article
-                  key={item.title}
+                  key={item.number}
                   className="expertise-card"
-                  initial={{ opacity: 0, y: 25 }}
-                  whileInView={{ opacity: 1, y: 0 }}
+                  initial={{
+                    opacity: 0,
+                    y: 25,
+                  }}
+                  whileInView={{
+                    opacity: 1,
+                    y: 0,
+                  }}
                   viewport={{ once: true }}
-                  transition={{ delay: index * 0.08 }}
+                  transition={{
+                    delay: index * 0.08,
+                  }}
                 >
                   <div className="card-top">
                     <div className="card-icon">
                       <Icon size={25} />
                     </div>
-                    <span className="card-number">{item.number}</span>
+
+                    <span className="card-number">
+                      {item.number}
+                    </span>
                   </div>
+
                   <h3>{item.title}</h3>
+
                   <p>{item.description}</p>
+
                   <div className="tag-list">
                     {item.tags.map((tag) => (
-                      <span key={tag}>{tag}</span>
+                      <span key={tag}>
+                        {tag}
+                      </span>
                     ))}
                   </div>
                 </motion.article>
@@ -489,46 +696,117 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="section projects-section" id="projects">
+      {/* ===============================================
+          FEATURED PROJECTS
+          =============================================== */}
+
+      <section
+        className="section projects-section"
+        id="projects"
+      >
         <div className="shell">
           <SectionHeading
-            eyebrow="02 / SELECTED WORK"
-            title="Built to solve real problems."
-            description="A selection of systems engineering work alongside the DevOps delivery practices being developed for this portfolio."
+            eyebrow="02 / SELECTED ENGINEERING WORK"
+            title="Real problems. Engineered solutions."
+            description="Selected professional work spanning hardware-independent CI/CD testing, cross-language data pipeline architecture, and containerized monitoring infrastructure."
           />
 
           <div className="project-list">
             {projects.map((project, index) => {
               const Icon = project.icon;
+
               return (
                 <motion.article
                   className="project-card"
                   key={project.number}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
+                  initial={{
+                    opacity: 0,
+                    y: 20,
+                  }}
+                  whileInView={{
+                    opacity: 1,
+                    y: 0,
+                  }}
                   viewport={{ once: true }}
-                  transition={{ delay: index * 0.1 }}
+                  transition={{
+                    delay: index * 0.1,
+                  }}
                 >
                   <div className="project-graphic">
                     <span className="project-graphic-grid" />
-                    <Icon size={48} strokeWidth={1.25} />
+
+                    <Icon
+                      size={48}
+                      strokeWidth={1.25}
+                    />
+
                     <span className="project-graphic-label">
                       SYSTEM / {project.number}
                     </span>
                   </div>
+
                   <div className="project-info">
                     <span className="project-category">
                       {project.category}
                     </span>
+
                     <h3>{project.title}</h3>
+
                     <p>{project.description}</p>
+
+                    <p>
+                      <strong
+                        style={{
+                          color: "#bcd5ff",
+                        }}
+                      >
+                        My contribution:
+                      </strong>{" "}
+                      {project.contribution}
+                    </p>
+
                     <div className="tag-list">
                       {project.tags.map((tag) => (
-                        <span key={tag}>{tag}</span>
+                        <span key={tag}>
+                          {tag}
+                        </span>
                       ))}
                     </div>
+                    {project.number === "01" && (
+                      <div className="project-action">
+                        <a
+                          href="/projects/hardware-independent-dpdk-testing"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="case-study-btn"
+                          aria-label={`View case study: ${project.title} (opens in new tab)`}
+                        >
+                          <span>Explore Case Study</span>
+                          <ArrowUpRight size={18} />
+                        </a>
+                      </div>
+                    )}
+
+                    {project.number === "02" && (
+                      <div className="project-action">
+                        <a
+                          href="/projects/dpdk-grpc-data-pipeline"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="case-study-btn"
+                          aria-label={`Explore ${project.title} case study (opens in new tab)`}
+                        >
+                          <span>Explore Case Study</span>
+                          <ArrowUpRight size={18} />
+                        </a>
+                      </div>
+                    )}
+
                   </div>
-                  <span className="project-index">{project.number}</span>
+
+                  <span className="project-index">
+                    {project.number}
+                  </span>
                 </motion.article>
               );
             })}
@@ -536,24 +814,46 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="section terminal-section" id="terminal">
+      {/* ===============================================
+          INTERACTIVE TERMINAL
+          =============================================== */}
+
+      <section
+        className="section terminal-section"
+        id="terminal"
+      >
         <div className="shell terminal-layout">
           <div className="terminal-intro">
             <span className="eyebrow">
               <span className="eyebrow-line" />
               03 / INTERACTIVE
             </span>
+
             <h2>
-              Curious?
+              Explore my
               <br />
-              <span className="gradient-text">Open a terminal.</span>
+
+              <span className="gradient-text">
+                engineering work.
+              </span>
             </h2>
+
             <p>
-              Get to know my background and engineering work through an
-              interactive command-line interface.
+              Prefer the command line? Explore
+              my technical background,
+              engineering projects, and
+              DevOps experience directly
+              through the terminal.
             </p>
+
             <div className="terminal-suggestions">
-              {["help", "about", "skills", "projects"].map((item) => (
+              {[
+                "help",
+                "about",
+                "skills",
+                "projects",
+                "devops",
+              ].map((item) => (
                 <span key={item}>
                   <ChevronRight size={13} />
                   {item}
@@ -561,23 +861,40 @@ export default function Home() {
               ))}
             </div>
           </div>
+
           <InteractiveTerminal />
         </div>
       </section>
 
-      <section className="contact-section" id="contact">
+      {/* ===============================================
+          CONTACT
+          =============================================== */}
+
+      <section
+        className="contact-section"
+        id="contact"
+      >
         <div className="shell contact-inner">
           <span className="eyebrow">
             <span className="eyebrow-line" />
             04 / CONNECT
           </span>
-          <h2>Let&apos;s engineer something meaningful.</h2>
+
+          <h2>
+            Let&apos;s build reliable
+            engineering systems.
+          </h2>
+
           <p>
-            Interested in systems engineering, DevOps, infrastructure,
-            or performance-oriented software?
+            Interested in systems software,
+            Linux infrastructure, CI/CD
+            automation, high-performance
+            networking, or containerized
+            applications?
           </p>
+
           <a
-            href="https://github.com/ronok-shahariar"
+            href={portfolio.github}
             target="_blank"
             rel="noopener noreferrer"
             className="button-primary"
@@ -588,12 +905,24 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ===============================================
+          FOOTER
+          =============================================== */}
+
       <footer className="site-footer">
         <div className="shell footer-inner">
-          <span>© {new Date().getFullYear()} Md Shahariar Hassan</span>
-          <span>ENGINEERED WITH NEXT.JS</span>
+          <span>
+            © {new Date().getFullYear()}{" "}
+            {portfolio.name}
+          </span>
+
+          <span>
+            {portfolio.specialization}
+          </span>
+
           <a href="#home">
-            BACK TO TOP <ArrowUpRight size={14} />
+            BACK TO TOP
+            <ArrowUpRight size={14} />
           </a>
         </div>
       </footer>
