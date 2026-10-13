@@ -1,6 +1,6 @@
-
 "use client";
 
+import Image from "next/image";
 import { useState, type FormEvent } from "react";
 import { motion } from "motion/react";
 import {
@@ -20,13 +20,13 @@ import {
   Network,
   Server,
   ShieldCheck,
-  Terminal,
   Workflow,
   X,
 } from "lucide-react";
 
 import ProfessionalExperience from "@/components/sections/ProfessionalExperience";
-
+import EngineeringDemos from "@/components/sections/EngineeringDemos";
+import ProfessionalPlatform from "@/components/sections/ProfessionalPlatform";
 
 /* =========================================================
    PORTFOLIO DATA
@@ -140,13 +140,15 @@ function Navbar() {
   return (
     <header className="site-header">
       <div className="shell nav-inner">
-        <a
-          href="#home"
-          className="brand"
-          onClick={() => setOpen(false)}
-        >
-          <span className="brand-icon">
-            <Terminal size={19} strokeWidth={2.4} />
+        <a href="#home" className="brand" onClick={() => setOpen(false)}>
+          <span className="navbar-portrait">
+            <Image
+              src="/images/profile-devops.jpg"
+              alt="Md Shahariar Hassan"
+              width={42}
+              height={42}
+              className="navbar-portrait-image"
+            />
           </span>
 
           <span>
@@ -159,11 +161,7 @@ function Navbar() {
           aria-label="Main navigation"
         >
           {navigation.map((item) => (
-            <a
-              key={item.label}
-              href={item.href}
-              onClick={() => setOpen(false)}
-            >
+            <a key={item.label} href={item.href} onClick={() => setOpen(false)}>
               {item.label}
             </a>
           ))}
@@ -183,9 +181,7 @@ function Navbar() {
         <button
           className="mobile-toggle"
           type="button"
-          aria-label={
-            open ? "Close navigation" : "Open navigation"
-          }
+          aria-label={open ? "Close navigation" : "Open navigation"}
           aria-expanded={open}
           onClick={() => setOpen(!open)}
         >
@@ -257,10 +253,7 @@ function Infrastructure() {
             const Icon = node.icon;
 
             return (
-              <div
-                className="pipeline-step"
-                key={node.name}
-              >
+              <div className="pipeline-step" key={node.name}>
                 <motion.div
                   className="pipeline-node"
                   initial={{ opacity: 0, y: 12 }}
@@ -275,18 +268,13 @@ function Infrastructure() {
                     <Icon size={23} />
                   </div>
 
-                  <span className="pipeline-label">
-                    {node.label}
-                  </span>
+                  <span className="pipeline-label">{node.label}</span>
 
                   <strong>{node.name}</strong>
                 </motion.div>
 
                 {index < nodes.length - 1 && (
-                  <div
-                    className="pipeline-link"
-                    aria-hidden="true"
-                  >
+                  <div className="pipeline-link" aria-hidden="true">
                     <ChevronRight size={17} />
                   </div>
                 )}
@@ -301,21 +289,18 @@ function Infrastructure() {
             Remote visualization via Grafana
           </span>
 
-          <span className="mono">
-            C / PYTHON / DOCKER
-          </span>
+          <span className="mono">C / PYTHON / DOCKER</span>
         </div>
       </div>
     </div>
   );
 }
 
-{/* ===============================================
+{
+  /* ===============================================
     PROFESSIONAL EXPERIENCE
-    =============================================== */}
-
-
-
+    =============================================== */
+}
 
 /* =========================================================
    INTERACTIVE TERMINAL
@@ -389,18 +374,14 @@ function InteractiveTerminal() {
   const [command, setCommand] = useState("");
   const [history, setHistory] = useState<TerminalLine[]>([
     {
-      output:
-        "Welcome to Shahariar's engineering terminal.",
+      output: "Welcome to Shahariar's engineering terminal.",
     },
     {
-      output:
-        "Type 'help' to explore the portfolio.",
+      output: "Type 'help' to explore the portfolio.",
     },
   ]);
 
-  function handleSubmit(
-    event: FormEvent<HTMLFormElement>
-  ) {
+  function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
     const input = command.trim().toLowerCase();
@@ -448,30 +429,16 @@ function InteractiveTerminal() {
         {history.map((line, index) => (
           <div
             key={index}
-            className={
-              line.command
-                ? "terminal-command"
-                : "terminal-output"
-            }
+            className={line.command ? "terminal-command" : "terminal-output"}
           >
-            {line.command && (
-              <span className="terminal-prompt">
-                ➜ ~{" "}
-              </span>
-            )}
+            {line.command && <span className="terminal-prompt">➜ ~ </span>}
 
             {line.command ?? line.output}
           </div>
         ))}
 
-        <form
-          className="terminal-form"
-          onSubmit={handleSubmit}
-        >
-          <label
-            htmlFor="terminal-input"
-            className="terminal-prompt"
-          >
+        <form className="terminal-form" onSubmit={handleSubmit}>
+          <label htmlFor="terminal-input" className="terminal-prompt">
             ➜ ~
           </label>
 
@@ -481,9 +448,7 @@ function InteractiveTerminal() {
             autoComplete="off"
             spellCheck={false}
             value={command}
-            onChange={(event) =>
-              setCommand(event.target.value)
-            }
+            onChange={(event) => setCommand(event.target.value)}
             placeholder="type a command..."
             aria-label="Terminal command"
           />
@@ -550,39 +515,27 @@ export default function Home() {
             </div>
 
             <div className="hero-label">
-              <span className="mono">
-                01 / ENGINEERING PORTFOLIO
-              </span>
+              <span className="mono">01 / ENGINEERING PORTFOLIO</span>
             </div>
 
             <h1>
               I build the
               <br />
-              <span className="gradient-text">
-                software.
-              </span>
+              <span className="gradient-text">software.</span>
               <br />
               And engineer
               <br />
-              <span className="outline-text">
-                how it runs.
-              </span>
+              <span className="outline-text">how it runs.</span>
             </h1>
 
             <p className="hero-description">
-              I&apos;m{" "}
-              <strong>{portfolio.name}</strong>, an{" "}
-              {portfolio.role} specializing in
-              C/Python systems integration, Linux,
-              DPDK, containerized infrastructure,
-              and automated software validation.
+              I&apos;m <strong>{portfolio.name}</strong>, an {portfolio.role}{" "}
+              specializing in C/Python systems integration, Linux, DPDK,
+              containerized infrastructure, and automated software validation.
             </p>
 
             <div className="hero-actions">
-              <a
-                href="#projects"
-                className="button-primary"
-              >
+              <a href="#projects" className="button-primary">
                 Explore My Work
                 <ArrowUpRight size={18} />
               </a>
@@ -639,9 +592,7 @@ export default function Home() {
         aria-label="Core engineering technologies"
       >
         <div className="shell tech-strip-inner">
-          <span className="tech-strip-label">
-            CORE STACK
-          </span>
+          <span className="tech-strip-label">CORE STACK</span>
 
           <div>
             <span>LINUX</span>
@@ -658,10 +609,7 @@ export default function Home() {
           EXPERTISE
           =============================================== */}
 
-      <section
-        className="section expertise-section"
-        id="expertise"
-      >
+      <section className="section expertise-section" id="expertise">
         <div className="shell">
           <SectionHeading
             eyebrow="01 / ENGINEERING EXPERTISE"
@@ -695,9 +643,7 @@ export default function Home() {
                       <Icon size={25} />
                     </div>
 
-                    <span className="card-number">
-                      {item.number}
-                    </span>
+                    <span className="card-number">{item.number}</span>
                   </div>
 
                   <h3>{item.title}</h3>
@@ -706,9 +652,7 @@ export default function Home() {
 
                   <div className="tag-list">
                     {item.tags.map((tag) => (
-                      <span key={tag}>
-                        {tag}
-                      </span>
+                      <span key={tag}>{tag}</span>
                     ))}
                   </div>
                 </motion.article>
@@ -722,10 +666,7 @@ export default function Home() {
           FEATURED PROJECTS
           =============================================== */}
 
-      <section
-        className="section projects-section"
-        id="projects"
-      >
+      <section className="section projects-section" id="projects">
         <div className="shell">
           <SectionHeading
             eyebrow="02 / SELECTED ENGINEERING WORK"
@@ -757,10 +698,7 @@ export default function Home() {
                   <div className="project-graphic">
                     <span className="project-graphic-grid" />
 
-                    <Icon
-                      size={48}
-                      strokeWidth={1.25}
-                    />
+                    <Icon size={48} strokeWidth={1.25} />
 
                     <span className="project-graphic-label">
                       SYSTEM / {project.number}
@@ -768,9 +706,7 @@ export default function Home() {
                   </div>
 
                   <div className="project-info">
-                    <span className="project-category">
-                      {project.category}
-                    </span>
+                    <span className="project-category">{project.category}</span>
 
                     <h3>{project.title}</h3>
 
@@ -789,9 +725,7 @@ export default function Home() {
 
                     <div className="tag-list">
                       {project.tags.map((tag) => (
-                        <span key={tag}>
-                          {tag}
-                        </span>
+                        <span key={tag}>{tag}</span>
                       ))}
                     </div>
                     {project.number === "01" && (
@@ -853,12 +787,9 @@ export default function Home() {
                         </a>
                       </div>
                     )}
-
                   </div>
 
-                  <span className="project-index">
-                    {project.number}
-                  </span>
+                  <span className="project-index">{project.number}</span>
                 </motion.article>
               );
             })}
@@ -871,7 +802,13 @@ export default function Home() {
           =============================================== */}
 
       {/* PROFESSIONAL EXPERIENCE */}
-      
+
+      {/* PROJECT DEMONSTRATION VIDEOS */}
+      {/* PROFESSIONAL PLATFORM SHOWCASE */}
+      <ProfessionalPlatform />
+
+      <EngineeringDemos />
+
       <ProfessionalExperience />
 
       {/* PREVIOUS PART-TIME PROJECTS */}
@@ -890,9 +827,8 @@ export default function Home() {
               <h4>Selected Web Projects</h4>
 
               <p>
-                A small collection of websites and interactive
-                applications developed for part-time client work
-                and independent projects.
+                A small collection of websites and interactive applications
+                developed for part-time client work and independent projects.
               </p>
             </div>
           </div>
@@ -911,10 +847,7 @@ export default function Home() {
       </div>
 
       {/* INTERACTIVE TERMINAL */}
-      <section
-        className="section terminal-section"
-        id="terminal"
-      >
+      <section className="section terminal-section" id="terminal">
         <div className="shell terminal-layout">
           <div className="terminal-intro">
             <span className="eyebrow">
@@ -925,28 +858,17 @@ export default function Home() {
             <h2>
               Explore my
               <br />
-
-              <span className="gradient-text">
-                engineering work.
-              </span>
+              <span className="gradient-text">engineering work.</span>
             </h2>
 
             <p>
-              Prefer the command line? Explore
-              my technical background,
-              engineering projects, and
-              DevOps experience directly
-              through the terminal.
+              Prefer the command line? Explore my technical background,
+              engineering projects, and DevOps experience directly through the
+              terminal.
             </p>
 
             <div className="terminal-suggestions">
-              {[
-                "help",
-                "about",
-                "skills",
-                "projects",
-                "devops",
-              ].map((item) => (
+              {["help", "about", "skills", "projects", "devops"].map((item) => (
                 <span key={item}>
                   <ChevronRight size={13} />
                   {item}
@@ -963,38 +885,42 @@ export default function Home() {
           CONTACT
           =============================================== */}
 
-      <section
-        className="contact-section"
-        id="contact"
-      >
-        <div className="shell contact-inner">
-          <span className="eyebrow">
-            <span className="eyebrow-line" />
-            04 / CONNECT
-          </span>
+      <section className="contact-section" id="contact">
+        <div className="shell contact-inner contact-with-photo">
+          <div className="contact-copy">
+            <span className="eyebrow">
+              <span className="eyebrow-line" />
+              04 / CONNECT
+            </span>
 
-          <h2>
-            Let&apos;s build reliable
-            engineering systems.
-          </h2>
+            <h2>Let&apos;s build reliable engineering systems.</h2>
 
-          <p>
-            Interested in systems software,
-            Linux infrastructure, CI/CD
-            automation, high-performance
-            networking, or containerized
-            applications?
-          </p>
+            <p>
+              Interested in systems software, Linux infrastructure, CI/CD
+              automation, high-performance networking, or containerized
+              applications?
+            </p>
 
-          <a
-            href={portfolio.github}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="button-primary"
-          >
-            Connect on GitHub
-            <ArrowRight size={18} />
-          </a>
+            <a
+              href={portfolio.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="button-primary"
+            >
+              Connect on GitHub
+              <ArrowRight size={18} />
+            </a>
+          </div>
+
+          <div className="contact-profile">
+            <Image
+              src="/images/profile-devops.jpg"
+              alt="Professional portrait of Md Shahariar Hassan"
+              width={480}
+              height={560}
+              className="contact-profile-image"
+            />
+          </div>
         </div>
       </section>
 
@@ -1005,13 +931,10 @@ export default function Home() {
       <footer className="site-footer">
         <div className="shell footer-inner">
           <span>
-            © {new Date().getFullYear()}{" "}
-            {portfolio.name}
+            © {new Date().getFullYear()} {portfolio.name}
           </span>
 
-          <span>
-            {portfolio.specialization}
-          </span>
+          <span>{portfolio.specialization}</span>
 
           <a href="#home">
             BACK TO TOP
