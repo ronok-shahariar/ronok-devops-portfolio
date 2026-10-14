@@ -16,23 +16,53 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Md Shahariar Hassan | DevOps & Systems Engineering",
+  metadataBase: new URL("https://ronok-devops-portfolio.vercel.app"),
+
+  title: "Md Shahariar Hassan | DevOps Engineering Portfolio",
+
   description:
-    "DevOps and Systems Engineering portfolio of Md Shahariar Hassan. Exploring Linux, high-performance networking, automation, CI/CD, and cloud infrastructure.",
+    "Professional engineering portfolio featuring Docker, Bitbucket CI/CD automation, Linux systems, Python services, Prometheus, Grafana, and software security.",
+
   keywords: [
     "DevOps",
+    "Docker",
     "Linux",
-    "Systems Engineering",
     "CI/CD",
-    "Cloud Infrastructure",
-    "DPDK",
+    "Bitbucket Pipelines",
+    "Python",
+    "Prometheus",
+    "Grafana",
     "Md Shahariar Hassan",
   ],
+
   openGraph: {
-    title: "Md Shahariar Hassan | DevOps & Systems Engineering",
+    title: "Md Shahariar Hassan | DevOps Engineering Portfolio",
     description:
-      "Building scalable infrastructure and reliable engineering systems.",
+      "Linux · Docker · CI/CD Automation · Python · Prometheus · Grafana",
+    url: "https://ronok-devops-portfolio.vercel.app/",
+    siteName: "SH.DEVOPS",
     type: "website",
+    images: [
+      {
+        url: "/images/devops-linkedin-preview.png",
+        width: 1200,
+        height: 630,
+        alt: "Md Shahariar Hassan DevOps Engineering Portfolio",
+      },
+    ],
+  },
+
+  twitter: {
+    card: "summary_large_image",
+    title: "Md Shahariar Hassan | DevOps Engineering Portfolio",
+    description:
+      "Docker, Linux, CI/CD, and containerized observability infrastructure.",
+    images: ["/images/devops-linkedin-preview.png"],
+  },
+
+  robots: {
+    index: true,
+    follow: true,
   },
 };
 
