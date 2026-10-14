@@ -914,7 +914,7 @@ export default function Home() {
 
           <div className="contact-profile">
             <Image
-              src="/images/profile-devops.jpg"
+              src="/images/siliconova_cool.jpg"
               alt="Professional portrait of Md Shahariar Hassan"
               width={480}
               height={560}
